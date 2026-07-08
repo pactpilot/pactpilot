@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "checkout-refactor-4f2a1c",
+  "title": "Refactor checkout flow",
+  "description": "Replace legacy checkout with the new payments API.",
+  "scope": {
+    "allow": ["src/checkout/**", "src/lib/payments.ts"],
+    "deny": ["src/checkout/legacy/**"]
+  },
+  "acceptanceCriteria": ["Checkout E2E suite passes", "No changes to public API types"],
+  "requiredChecks": ["ci/e2e-checkout"]
+}

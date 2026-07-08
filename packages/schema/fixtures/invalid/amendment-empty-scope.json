@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "id": "empty-change-1a2b3c",
+  "pactId": "checkout-refactor-4f2a1c",
+  "description": "An amendment that changes nothing.",
+  "addedScope": [],
+  "removedScope": []
+}

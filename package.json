@@ -1,0 +1,10 @@
+{
+  "name": "@pactpilot/monorepo",
+  "private": true,
+  "version": "0.0.0",
+  "description": "PactPilot core monorepo: CLI, schema, and action-core.",
+  "license": "Apache-2.0",
+  "workspaces": [
+    "packages/*"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "id": "add-header-tests-c3d4e5",
+  "pactId": "fix-header-a01b2c",
+  "description": "The header fix needs a regression test alongside the component.",
+  "addedScope": ["tests/components/Header/**"]
+}

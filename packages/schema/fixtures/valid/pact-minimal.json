@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "id": "fix-header-a01b2c",
+  "title": "Fix sticky header overlap on mobile",
+  "scope": {
+    "allow": ["src/components/Header/**"]
+  }
+}

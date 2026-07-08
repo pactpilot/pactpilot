@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "id": "walk-back-billing-f6a7b8",
+  "pactId": "checkout-refactor-4f2a1c",
+  "description": "Billing was scoped too broadly; take it back out — this branch must not touch payments.",
+  "removedScope": ["src/lib/payments.ts"]
+}

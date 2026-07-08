@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pactpilot.ai/schemas/v1/amendment.schema.json",
+  "title": "PactPilot Amendment",
+  "description": "An append-only scope change to a base pact. One file per amendment; files are create-only. When amendments conflict on a path, the latest by commit ancestry wins — never ids or timestamps.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "pactId", "description"],
+  "properties": {
+    "schemaVersion": {
+      "description": "Major-only schema version. Files with an unknown major are invalid.",
+      "const": 1
+    },
+    "id": {
+      "description": "Human-chosen slug plus a 6-hex-char entropy suffix. Must equal the filename (without .json). Carries no ordering semantics.",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*-[0-9a-f]{6}$"
+    },
+    "pactId": {
+      "description": "Id of the base pact this amends. Must equal the parent directory name.",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*-[0-9a-f]{6}$"
+    },
+    "description": {
+      "description": "Why the pact was changed. Required — the audit trail is the point. Surfaced in the PR check summary.",
+      "type": "string",
+      "minLength": 1
+    },
+    "addedScope": {
+      "description": "Globs added to the pact's scope. Temporal rules (commit ancestry) decide whether covered work earns Green or Yellow. Within this amendment, addedScope beats removedScope.",
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "removedScope": {
+      "description": "Globs removed from the pact's scope. A removal stands: a PR diff touching an effectively removed path is Red. Conflicts across amendments resolve latest-by-ancestry.",
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "anyOf": [
+    {
+      "required": ["addedScope"],
+      "properties": { "addedScope": { "type": "array", "minItems": 1 } }
+    },
+    {
+      "required": ["removedScope"],
+      "properties": { "removedScope": { "type": "array", "minItems": 1 } }
+    }
+  ]
+}

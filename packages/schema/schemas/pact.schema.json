@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pactpilot.ai/schemas/v1/pact.schema.json",
+  "title": "PactPilot Base Pact",
+  "description": "A declared change-scope contract for one feature branch. Immutable for the life of the branch; all scope changes go through amendments.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "title", "scope"],
+  "properties": {
+    "schemaVersion": {
+      "description": "Major-only schema version. Files with an unknown major are invalid.",
+      "const": 1
+    },
+    "id": {
+      "description": "Human-chosen slug plus a 6-hex-char entropy suffix. Must equal the filename (without .json). Carries no ordering semantics.",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*-[0-9a-f]{6}$"
+    },
+    "title": {
+      "description": "One-line statement of intent for the branch.",
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "description": "Optional longer rationale.",
+      "type": "string"
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allow"],
+      "properties": {
+        "allow": {
+          "description": "Repo-root-relative globs (gitignore/picomatch style) the branch may change.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "deny": {
+          "description": "Globs that may never be changed on this branch. Deny beats allow. Permanent: amendments cannot touch it.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "acceptanceCriteria": {
+      "description": "INFORMATIONAL ONLY: acceptance checks for the branch, consumed by the instruction generators. Zero enforcement semantics in the status engine.",
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "requiredChecks": {
+      "description": "INFORMATIONAL ONLY: names of GitHub checks relevant to this branch, for generators and future check observation. Not evaluated by the status engine.",
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

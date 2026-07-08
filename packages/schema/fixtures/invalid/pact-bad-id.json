@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "id": "Checkout_Refactor",
+  "title": "Refactor checkout flow",
+  "scope": {
+    "allow": ["src/checkout/**"]
+  }
+}
