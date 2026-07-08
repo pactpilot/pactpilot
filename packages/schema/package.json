@@ -2,6 +2,7 @@
   "name": "@pactpilot/schema",
   "version": "1.0.0",
   "description": "The PactPilot pact/amendment file format: normative SPEC, JSON Schemas, and TypeScript types.",
+  "license": "(MIT OR CC0-1.0)",
   "main": "src/index.ts",
   "files": [
     "SPEC.md",

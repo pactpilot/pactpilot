@@ -2,6 +2,8 @@
 
 **Schema version: 1** · Status: draft (pre-1.0)
 
+This specification and the accompanying JSON Schemas are available under the MIT License or CC0 1.0 Universal, at your option; reimplementation in any language or tool is expressly invited.
+
 This document is the normative definition of the `.pactpilot/` file format read by the
 PactPilot CLI and GitHub Action. The JSON Schemas in [`schemas/`](schemas/) are the
 machine-readable companion; where prose and schema disagree, the schema wins for
