@@ -14,8 +14,9 @@ export type SchemaVersion = typeof SCHEMA_VERSION;
 /**
  * Scope declaration of a base pact.
  *
- * Globs are repo-root-relative, gitignore/picomatch style. `deny` beats
- * `allow` and is permanent for the branch — amendments cannot touch it.
+ * Entries are scope globs (SPEC §5): repo-root-relative, anchored, and
+ * path-only — a glob covers any kind of change to a matching path. `deny`
+ * beats `allow` and is permanent for the branch — amendments cannot touch it.
  */
 export interface PactScope {
   allow: string[];

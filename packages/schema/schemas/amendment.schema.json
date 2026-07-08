@@ -6,6 +6,14 @@
   "type": "object",
   "additionalProperties": false,
   "required": ["schemaVersion", "id", "pactId", "description"],
+  "$defs": {
+    "scopeGlob": {
+      "description": "A PactPilot glob v1 scope expression (SPEC §5): repo-root-relative, anchored, `/`-separated segments of literals and `*`, with `**` only as a whole segment. Reserved characters (? [ ] { } ! \\ and controls), `.`/`..` segments, empty segments, and leading/trailing slashes are invalid. This pattern enforces the character-level rules; SPEC §5.1 is normative.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\*\\*|(?!\\.\\.?(?:/|$))(?:[^*/?\\[\\]{}!\\\\\\x00-\\x1f]|\\*(?!\\*))+)(?:/(?:\\*\\*|(?!\\.\\.?(?:/|$))(?:[^*/?\\[\\]{}!\\\\\\x00-\\x1f]|\\*(?!\\*))+))*$"
+    }
+  },
   "properties": {
     "schemaVersion": {
       "description": "Major-only schema version. Files with an unknown major are invalid.",
@@ -27,14 +35,14 @@
       "minLength": 1
     },
     "addedScope": {
-      "description": "Globs added to the pact's scope. Temporal rules (commit ancestry) decide whether covered work earns Green or Yellow. Within this amendment, addedScope beats removedScope.",
+      "description": "Scope globs (SPEC §5) added to the pact's scope. Temporal rules (commit ancestry) decide whether covered work earns Green or Yellow. Within this amendment, addedScope beats removedScope.",
       "type": "array",
-      "items": { "type": "string", "minLength": 1 }
+      "items": { "$ref": "#/$defs/scopeGlob" }
     },
     "removedScope": {
-      "description": "Globs removed from the pact's scope. A removal stands: a PR diff touching an effectively removed path is Red. Conflicts across amendments resolve latest-by-ancestry.",
+      "description": "Scope globs (SPEC §5) removed from the pact's scope. A removal stands: a PR diff touching an effectively removed path is Red. Conflicts across amendments resolve latest-by-ancestry. An invalid glob here makes the whole file invalid (Red) — skipping it would fail open.",
       "type": "array",
-      "items": { "type": "string", "minLength": 1 }
+      "items": { "$ref": "#/$defs/scopeGlob" }
     }
   },
   "anyOf": [

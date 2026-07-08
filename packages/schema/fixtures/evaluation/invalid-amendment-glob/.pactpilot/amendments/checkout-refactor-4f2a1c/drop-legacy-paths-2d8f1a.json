@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "drop-legacy-paths-2d8f1a",
+  "pactId": "checkout-refactor-4f2a1c",
+  "description": "Walk back coverage of the legacy checkout tree.",
+  "addedScope": [
+    "src/checkout/v2/**"
+  ],
+  "removedScope": [
+    "!src/checkout/legacy/**"
+  ]
+}

@@ -6,7 +6,8 @@
   "files": [
     "SPEC.md",
     "schemas",
-    "src"
+    "src",
+    "fixtures"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit"

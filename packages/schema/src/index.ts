@@ -6,6 +6,8 @@ export {
   type Amendment,
 } from "./types";
 
+export { isValidScopeGlob, scopeGlobMatches } from "./glob";
+
 import pactSchema from "../schemas/pact.schema.json";
 import amendmentSchema from "../schemas/amendment.schema.json";
 

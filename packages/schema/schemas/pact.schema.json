@@ -6,6 +6,14 @@
   "type": "object",
   "additionalProperties": false,
   "required": ["schemaVersion", "id", "title", "scope"],
+  "$defs": {
+    "scopeGlob": {
+      "description": "A PactPilot glob v1 scope expression (SPEC §5): repo-root-relative, anchored, `/`-separated segments of literals and `*`, with `**` only as a whole segment. Reserved characters (? [ ] { } ! \\ and controls), `.`/`..` segments, empty segments, and leading/trailing slashes are invalid. This pattern enforces the character-level rules; SPEC §5.1 is normative.",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?:\\*\\*|(?!\\.\\.?(?:/|$))(?:[^*/?\\[\\]{}!\\\\\\x00-\\x1f]|\\*(?!\\*))+)(?:/(?:\\*\\*|(?!\\.\\.?(?:/|$))(?:[^*/?\\[\\]{}!\\\\\\x00-\\x1f]|\\*(?!\\*))+))*$"
+    }
+  },
   "properties": {
     "schemaVersion": {
       "description": "Major-only schema version. Files with an unknown major are invalid.",
@@ -31,15 +39,15 @@
       "required": ["allow"],
       "properties": {
         "allow": {
-          "description": "Repo-root-relative globs (gitignore/picomatch style) the branch may change.",
+          "description": "Scope globs (SPEC §5) the branch may change. Path-only: a glob covers any kind of change to a matching path.",
           "type": "array",
-          "items": { "type": "string", "minLength": 1 },
+          "items": { "$ref": "#/$defs/scopeGlob" },
           "minItems": 1
         },
         "deny": {
-          "description": "Globs that may never be changed on this branch. Deny beats allow. Permanent: amendments cannot touch it.",
+          "description": "Scope globs (SPEC §5) that may never be changed on this branch. Deny beats allow and beats .pactignore. Permanent: amendments cannot touch it.",
           "type": "array",
-          "items": { "type": "string", "minLength": 1 }
+          "items": { "$ref": "#/$defs/scopeGlob" }
         }
       }
     },

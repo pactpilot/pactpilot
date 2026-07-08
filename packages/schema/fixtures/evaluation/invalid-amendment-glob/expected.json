@@ -1,0 +1,8 @@
+{
+  "$comment": "Evaluation-level conformance fixture (SPEC.md 5.1, invalid-pattern blast radius). The amendment's removedScope entry uses reserved '!', making the pattern and therefore the whole file invalid. The file MUST NOT be skipped -- skipping would erase the removal and fail open -- so the PR is Red with the 'invalid governing file' diagnostic, distinct from 'diff exceeds pact'. No status engine ships in this package yet; items 2.6/2.8 consume this fixture.",
+  "overall": "red",
+  "diagnostic": "invalid governing file",
+  "invalidFiles": [
+    ".pactpilot/amendments/checkout-refactor-4f2a1c/drop-legacy-paths-2d8f1a.json"
+  ]
+}

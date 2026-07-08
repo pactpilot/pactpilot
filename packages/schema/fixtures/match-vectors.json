@@ -1,0 +1,231 @@
+{
+  "$comment": "Normative conformance vectors for PactPilot glob v1 (SPEC.md 5.2). A conforming matcher must produce exactly these results. Rows noted 'invalid' assert the fail-closed rule: an invalid pattern never matches any path.",
+  "vectors": [
+    {
+      "pattern": "payments.ts",
+      "path": "payments.ts",
+      "matches": true
+    },
+    {
+      "pattern": "payments.ts",
+      "path": "src/payments.ts",
+      "matches": false,
+      "note": "anchored: no gitignore-style match-at-any-depth"
+    },
+    {
+      "pattern": "**/payments.ts",
+      "path": "payments.ts",
+      "matches": true,
+      "note": "leading **/ spans zero segments"
+    },
+    {
+      "pattern": "**/payments.ts",
+      "path": "a/b/payments.ts",
+      "matches": true
+    },
+    {
+      "pattern": "src/**",
+      "path": "src/a.ts",
+      "matches": true
+    },
+    {
+      "pattern": "src/**",
+      "path": "src/a/b/c.ts",
+      "matches": true
+    },
+    {
+      "pattern": "src/**",
+      "path": "src",
+      "matches": false,
+      "note": "trailing /** requires one or more segments"
+    },
+    {
+      "pattern": "src/**",
+      "path": "srcx/a.ts",
+      "matches": false
+    },
+    {
+      "pattern": "a/**/b",
+      "path": "a/b",
+      "matches": true,
+      "note": "mid /**/ spans zero segments"
+    },
+    {
+      "pattern": "a/**/b",
+      "path": "a/x/y/b",
+      "matches": true
+    },
+    {
+      "pattern": "a/**/b",
+      "path": "a/b/c",
+      "matches": false
+    },
+    {
+      "pattern": "*.ts",
+      "path": "a.ts",
+      "matches": true
+    },
+    {
+      "pattern": "*.ts",
+      "path": "src/a.ts",
+      "matches": false,
+      "note": "* never crosses /"
+    },
+    {
+      "pattern": "src/*.ts",
+      "path": "src/a.ts",
+      "matches": true
+    },
+    {
+      "pattern": "src/*.ts",
+      "path": "src/a/b.ts",
+      "matches": false
+    },
+    {
+      "pattern": "src/a*z.ts",
+      "path": "src/abcz.ts",
+      "matches": true
+    },
+    {
+      "pattern": "src/a*z.ts",
+      "path": "src/az.ts",
+      "matches": true,
+      "note": "* spans zero characters"
+    },
+    {
+      "pattern": "s*/a.ts",
+      "path": "src/a.ts",
+      "matches": true
+    },
+    {
+      "pattern": "**",
+      "path": "a.ts",
+      "matches": true
+    },
+    {
+      "pattern": "**",
+      "path": "a/b/c.ts",
+      "matches": true
+    },
+    {
+      "pattern": "SRC/**",
+      "path": "src/a.ts",
+      "matches": false,
+      "note": "case-sensitive, always"
+    },
+    {
+      "pattern": "caf\u00e9.md",
+      "path": "caf\u00e9.md",
+      "matches": true,
+      "note": "same code-point form matches"
+    },
+    {
+      "pattern": "caf\u00e9.md",
+      "path": "cafe\u0301.md",
+      "matches": false,
+      "note": "no unicode normalization: NFC pattern, NFD path"
+    },
+    {
+      "pattern": "docs/release notes.md",
+      "path": "docs/release notes.md",
+      "matches": true,
+      "note": "spaces are literals"
+    },
+    {
+      "pattern": "src/.env",
+      "path": "src/.env",
+      "matches": true,
+      "note": "dot within a segment is literal; only . and .. segments are invalid"
+    },
+    {
+      "pattern": "",
+      "path": "a.ts",
+      "matches": false,
+      "note": "invalid: empty pattern"
+    },
+    {
+      "pattern": "!src/**",
+      "path": "src/a.ts",
+      "matches": false,
+      "note": "invalid: reserved !"
+    },
+    {
+      "pattern": "src/**/*.{ts,tsx}",
+      "path": "src/a.ts",
+      "matches": false,
+      "note": "invalid: reserved { }"
+    },
+    {
+      "pattern": "src/?.ts",
+      "path": "src/a.ts",
+      "matches": false,
+      "note": "invalid: reserved ?"
+    },
+    {
+      "pattern": "src/[ab].ts",
+      "path": "src/a.ts",
+      "matches": false,
+      "note": "invalid: reserved [ ]"
+    },
+    {
+      "pattern": "src\\a.ts",
+      "path": "src/a.ts",
+      "matches": false,
+      "note": "invalid: reserved backslash"
+    },
+    {
+      "pattern": "./src/**",
+      "path": "src/a.ts",
+      "matches": false,
+      "note": "invalid: . segment"
+    },
+    {
+      "pattern": "src/../a.ts",
+      "path": "a.ts",
+      "matches": false,
+      "note": "invalid: .. segment"
+    },
+    {
+      "pattern": "src/",
+      "path": "src/a.ts",
+      "matches": false,
+      "note": "invalid: trailing slash"
+    },
+    {
+      "pattern": "/src/**",
+      "path": "src/a.ts",
+      "matches": false,
+      "note": "invalid: leading slash"
+    },
+    {
+      "pattern": "src//a.ts",
+      "path": "src/a.ts",
+      "matches": false,
+      "note": "invalid: empty segment"
+    },
+    {
+      "pattern": "src/a**",
+      "path": "src/ab",
+      "matches": false,
+      "note": "invalid: ** embedded in a segment"
+    },
+    {
+      "pattern": "a**b/c",
+      "path": "axyb/c",
+      "matches": false,
+      "note": "invalid: ** embedded in a segment"
+    },
+    {
+      "pattern": "***",
+      "path": "a/b",
+      "matches": false,
+      "note": "invalid: ** embedded in a segment"
+    },
+    {
+      "pattern": "src/\u0001.ts",
+      "path": "src/\u0001.ts",
+      "matches": false,
+      "note": "invalid: control character U+0001"
+    }
+  ]
+}

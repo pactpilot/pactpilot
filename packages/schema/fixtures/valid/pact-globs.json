@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "scope-grammar-demo-7c1d9e",
+  "title": "Exercise every legal scope-glob construct",
+  "scope": {
+    "allow": [
+      "payments.ts",
+      "**/payments.ts",
+      "src/checkout/**",
+      "a/**/b",
+      "src/*.ts",
+      "src/**/*.test.ts",
+      "**",
+      "docs/release notes.md",
+      "src/.env.example"
+    ],
+    "deny": [
+      "src/checkout/legacy/**"
+    ]
+  }
+}
