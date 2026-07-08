@@ -242,7 +242,8 @@ plus `deny: ["X"]`.
 makes its containing file invalid. An invalid base pact or amendment of the governing
 pact cannot be verified and MUST NOT be skipped — the PR is Red, with a diagnostic
 distinct from scope drift (**"invalid governing file"**, not "diff exceeds pact").
-This is the same channel as an unknown `schemaVersion` (§6). Skipping is forbidden
+An unrecognized `schemaVersion` fails closed through the same no-skipping rule, with
+its own distinct diagnostic (§6). Skipping is forbidden
 because it fails open: a skipped amendment's `removedScope` would vanish, resurrecting
 coverage its author revoked. The rule applies to every scope array equally, including
 `removedScope`.
@@ -366,14 +367,26 @@ behavior, outside this spec.
 
 ## 6. `schemaVersion`
 
-- An integer, major-only, currently `1`.
-- A file whose `schemaVersion` is not a major the evaluator knows is **invalid**. An
-  invalid governing file cannot be verified and MUST NOT be silently skipped; the
-  status engine surfaces it as Red, with the same distinct "invalid governing file"
-  diagnostic as a file containing an invalid scope glob (§5.1).
-- The `@pactpilot/schema` npm package's major version tracks `schemaVersion`; minor
-  and patch releases are non-breaking tooling changes. Every change to this format
-  is a breaking-change decision.
+- A bare JSON **integer**, currently `1` — never a semver string. The field
+  identifies the file format, and the check is trivial equality.
+- **Check order: version gate first, validation second.** An evaluator reads the
+  `schemaVersion` field before anything else. An integer value it does not recognize
+  (today: anything other than `1`) means the file cannot be verified → Red, with the
+  distinct **"unsupported schema version"** diagnostic; full schema validation is not
+  attempted. A missing or non-integer `schemaVersion` is malformed content → Red,
+  with the **"invalid governing file"** diagnostic (§5.1). In both cases the file
+  MUST NOT be silently skipped — skipping fails open, for the reason given in §5.1.
+- This completes the canonical diagnostic set at four strings: "base pact modified",
+  "path removed from scope", "invalid governing file", "unsupported schema version".
+- **Future versions are deliberately undesigned.** schemaVersion 2 does not exist.
+  If it ever does, compatibility policy — which older versions an evaluator
+  supports, how the npm package version relates, the migration approach — will be
+  decided as part of designing it, with the benefit of real usage. Until then the
+  only rule is: an unrecognized version fails closed. Nothing an evaluator does
+  today needs to change for that rule to keep holding. One constraint is already
+  fixed by §1's create-only rule: in-place edits of a base pact are never legal —
+  that is the integrity check working — so any future "migration" means re-cutting
+  the pact, not rewriting the file.
 
 ## 7. Evaluation read model
 
@@ -436,3 +449,13 @@ agent could forge its own approval by writing it. This is enforced in layers:
 
 Approval, where required, is only ever a GitHub-native signal (a PR review) verified
 via the API.
+
+## 9. Version History
+
+Append-only changelog of the file format — a place to write down what changed and
+why, one entry per `schemaVersion`, newest first.
+
+- **schemaVersion 1** (current) — initial format: base pact + append-only amendment
+  list (§§1–4); PactPilot glob v1 scope grammar, path-only changed-path model, and
+  `.pactignore` contract (§5); integer `schemaVersion` with fail-closed handling of
+  unrecognized versions (§6). First published as `@pactpilot/schema` 1.0.0.

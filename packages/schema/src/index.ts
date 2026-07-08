@@ -1,5 +1,6 @@
 export {
-  SCHEMA_VERSION,
+  CURRENT_SCHEMA_VERSION,
+  isSupportedSchemaVersion,
   type SchemaVersion,
   type Pact,
   type PactScope,
@@ -7,6 +8,8 @@ export {
 } from "./types";
 
 export { isValidScopeGlob, scopeGlobMatches } from "./glob";
+
+export { DIAGNOSTICS, type Diagnostic } from "./diagnostics";
 
 import pactSchema from "../schemas/pact.schema.json";
 import amendmentSchema from "../schemas/amendment.schema.json";

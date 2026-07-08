@@ -1,0 +1,8 @@
+{
+  "$comment": "Evaluation-level conformance fixture (SPEC.md 6, version gate). The amendment carries integer schemaVersion 2, which this evaluator does not recognize: the version gate runs before schema validation, the file cannot be verified and MUST NOT be skipped, so the PR is Red with the 'unsupported schema version' diagnostic (distinct from 'invalid governing file', which covers malformed content such as a missing or non-integer schemaVersion). No status engine ships in this package yet; items 2.6/2.8 consume this fixture.",
+  "overall": "red",
+  "diagnostic": "unsupported schema version",
+  "invalidFiles": [
+    ".pactpilot/amendments/checkout-refactor-4f2a1c/add-tax-service-9b3e77.json"
+  ]
+}

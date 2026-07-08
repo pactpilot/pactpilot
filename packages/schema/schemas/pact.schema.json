@@ -16,8 +16,8 @@
   },
   "properties": {
     "schemaVersion": {
-      "description": "Major-only schema version. Files with an unknown major are invalid.",
-      "const": 1
+      "description": "Bare integer file-format version (SPEC §6). Evaluators gate on this field before running schema validation: an unrecognized integer is Red ('unsupported schema version'); missing or non-integer is Red ('invalid governing file').",
+      "enum": [1]
     },
     "id": {
       "description": "Human-chosen slug plus a 6-hex-char entropy suffix. Must equal the filename (without .json). Carries no ordering semantics.",

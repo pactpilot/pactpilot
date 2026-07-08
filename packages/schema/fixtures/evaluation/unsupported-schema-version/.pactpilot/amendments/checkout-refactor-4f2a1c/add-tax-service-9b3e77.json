@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 2,
+  "id": "add-tax-service-9b3e77",
+  "pactId": "checkout-refactor-4f2a1c",
+  "description": "Checkout refactor requires touching the tax calculation service.",
+  "addedScope": [
+    "src/tax/**"
+  ]
+}

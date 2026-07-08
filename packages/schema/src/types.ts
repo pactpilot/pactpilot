@@ -6,10 +6,19 @@
  * disagree, the JSON Schemas win.
  */
 
-/** Major-only schema version. Files with an unknown major are invalid. */
-export const SCHEMA_VERSION = 1 as const;
+/** The file-format version this package defines. A bare integer, never a semver string (SPEC §6). */
+export const CURRENT_SCHEMA_VERSION = 1 as const;
 
-export type SchemaVersion = typeof SCHEMA_VERSION;
+export type SchemaVersion = typeof CURRENT_SCHEMA_VERSION;
+
+/**
+ * Version gate (SPEC §6): run before schema validation. An unrecognized
+ * integer version is Red ("unsupported schema version"); a missing or
+ * non-integer value is malformed and Red ("invalid governing file").
+ */
+export function isSupportedSchemaVersion(v: unknown): v is SchemaVersion {
+  return v === CURRENT_SCHEMA_VERSION;
+}
 
 /**
  * Scope declaration of a base pact.
